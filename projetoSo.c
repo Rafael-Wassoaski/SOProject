@@ -26,6 +26,10 @@
 		arquivo=fopen("resultadoEscalonamento.txt","w");
 		fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
 	int i;
+	
+	
+	
+	
 
 
 
