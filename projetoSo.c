@@ -104,6 +104,87 @@ filaInicio = filaInicio->prox;
 		
 	}
 	
+	
+		void sjf(FILE *arquivo, processData *inicio){
+		processData *aux=inicio, *aux2, *filaInicio, *filaFim;
+		int tempo = 0;
+		filaInicio = filaFim = NULL;
+		
+		
+		arquivo=fopen("resultadoEscalonamento.txt","w");
+		fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+	int i;
+	
+		
+		while(aux->prox!=NULL){
+
+			aux2 = NULL;
+			while(aux->prox!=NULL){
+				
+			if(aux->at <= tempo){
+			
+				if(aux2!=NULL){
+					if(aux->bt < aux2->bt){
+						aux2 = aux;
+					}else if(aux->pid < aux2->pid){
+						aux2 = aux;
+					}
+					
+					
+				}else{
+					aux2 = aux;
+				}
+			}
+			
+				aux = aux->prox;
+			}
+			
+			if(aux2==NULL){
+			tempo++;
+		}else{
+		
+		tempo += aux2->bt;
+		aux2->ct = tempo;
+		aux2->tat = abs(aux2->ct - aux2->at);
+		aux2->wt = abs(aux2->tat - aux2->bt);
+		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",aux2->pid, aux2->at, aux2->bt, aux2->ct, aux2->tat, aux2->wt);
+		
+	
+		if(aux2 == inicio){
+			
+			inicio = inicio->prox;
+		}else{
+			aux2->ant->prox = aux2->prox;
+			aux2->prox->ant = aux2->ant;
+		}
+		if(filaInicio == NULL){
+			filaInicio = filaFim = aux2;
+		}else{
+			filaFim->prox = aux2;
+			filaFim = filaFim->prox;
+			
+		}
+	
+		
+		
+		
+		}
+		
+		aux = inicio;
+	}
+	
+ fprintf(arquivo,"\n\n");
+		
+		
+while(filaInicio != filaFim->prox){
+
+fprintf(arquivo,"P%d|%d ",filaInicio->pid, filaInicio->ct);
+filaInicio = filaInicio->prox;
+}
+	fclose(arquivo);
+		
+	}
+	
 	void main(){
 		char escalonador[8];
 		int quantum;
@@ -125,7 +206,7 @@ filaInicio = filaInicio->prox;
 	
 		fscanf(arquivo,"%s", &escalonador);
 		
-		if(strcmp(escalonador, "FCFS ")){
+		if(strcmp(escalonador, "FCFS ")== - 1){
 			//fcfs
 		
 			do{
@@ -145,8 +226,9 @@ filaInicio = filaInicio->prox;
 			fcfs(inicio, arquivo);
 				
 		
-		}else if(strcmp(escalonador, "SJF ")){
+		}else if(strcmp(escalonador, "SJF ") == -1){
 			//sjf
+	
 			do{
 				fscanf(arquivo,"%d ", &fim->pid);
 				fscanf(arquivo,"%d ", &fim->at);
@@ -160,10 +242,11 @@ filaInicio = filaInicio->prox;
 
 			}while(!feof(arquivo));
 				fclose(arquivo);
+				sjf(arquivo, inicio);
 			
-		}else if(strcmp(escalonador, "RR ")){
+		}else if(strcmp(escalonador, "RR ") == -1){
 			//RR
-		}else if(strcmp(escalonador, "Priority ")){
+		}else if(strcmp(escalonador, "Priority ") == -1){
 			//Priority
 		}
 	

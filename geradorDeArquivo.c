@@ -28,7 +28,7 @@ void main(){
 			scanf("%d",&valor[cont]);
 			}
 				if(valor[1] > 0){
-			if(valor[1]!= 0){
+			
 
 				fprintf(arquivo, "%d ", cont2 );
 
@@ -42,7 +42,7 @@ void main(){
 
 			}
 			cont2++;
-		}
+		
 		}while(valor[0]!= 0 || valor[1]!= 0 );
 		
 	}else if(algoritmo <= 4){

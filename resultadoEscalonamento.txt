@@ -1,0 +1,6 @@
+PID	AT	BT	CT	TAT	WT
+1	0	1	1	1	0
+0	0	3	4	4	1
+
+
+P1|1 P0|4 
