@@ -24,7 +24,7 @@
 		
 		
 		arquivo=fopen("resultadoEscalonamento.txt","w");
-		fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+		
 	int i;
 	
 	
@@ -66,7 +66,8 @@
 		aux2->ct = tempo;
 		aux2->tat = abs(aux2->ct - aux2->at);
 		aux2->wt = abs(aux2->tat - aux2->bt);
-		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",aux2->pid, aux2->at, aux2->bt, aux2->ct, aux2->tat, aux2->wt);
+		printf("P%d|%d|", aux2->pid, tempo);
+		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
 		
 	
 		if(aux2 == inicio){
@@ -93,11 +94,15 @@
 	}
 	
  fprintf(arquivo,"\n\n");
-		
+ printf("\n\n");
+ fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+ printf("PID	AT	BT	CT	TAT	WT\n");
 		
 while(filaInicio != filaFim->prox){
+		printf("%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->bt, filaInicio->ct, filaInicio->tat, filaInicio->wt);
+		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->bt, filaInicio->ct, filaInicio->tat, filaInicio->wt);
 
-fprintf(arquivo,"P%d|%d ",filaInicio->pid, filaInicio->ct);
+
 filaInicio = filaInicio->prox;
 }
 	fclose(arquivo);
@@ -112,7 +117,7 @@ filaInicio = filaInicio->prox;
 		
 		
 		arquivo=fopen("resultadoEscalonamento.txt","w");
-		fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+	
 	int i;
 	
 		
@@ -147,7 +152,8 @@ filaInicio = filaInicio->prox;
 		aux2->ct = tempo;
 		aux2->tat = abs(aux2->ct - aux2->at);
 		aux2->wt = abs(aux2->tat - aux2->bt);
-		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",aux2->pid, aux2->at, aux2->bt, aux2->ct, aux2->tat, aux2->wt);
+		printf("P%d|%d|", aux2->pid, tempo);
+		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
 		
 	
 		if(aux2 == inicio){
@@ -173,12 +179,17 @@ filaInicio = filaInicio->prox;
 		aux = inicio;
 	}
 	
- fprintf(arquivo,"\n\n");
-		
+
+fprintf(arquivo,"\n\n");
+ printf("\n\n");
+ fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+ printf("PID	AT	BT	CT	TAT	WT\n");
 		
 while(filaInicio != filaFim->prox){
+		printf("%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->bt, filaInicio->ct, filaInicio->tat, filaInicio->wt);
+		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->bt, filaInicio->ct, filaInicio->tat, filaInicio->wt);
 
-fprintf(arquivo,"P%d|%d ",filaInicio->pid, filaInicio->ct);
+
 filaInicio = filaInicio->prox;
 }
 	fclose(arquivo);
