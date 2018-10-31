@@ -65,15 +65,20 @@ void main(){
 			do{
 						if(algoritmo==3){
 												
-							printf("Digite o tempo de chegada (AT), o Tempo de Chegada e o tempo de CPU (BT): ");
+							printf("Digite o tempo de chegada (AT) e o tempo de CPU (BT): ");
+										for(cont=0;cont<2;cont++){
+
+											scanf("%d",&valor[cont]);
+													}	
 					}else {
 								
-							printf("Digite o tempo de chegada (AT), a Prioridade e o tempo de CPU (BT): ");			
-					}
-			for(cont=0;cont<3;cont++){
+							printf("Digite o tempo de chegada (AT), a Prioridade e o tempo de CPU (BT): ");	
+								for(cont=0;cont<3;cont++){
 
-			scanf("%d",&valor[cont]);
-			}
+											scanf("%d",&valor[cont]);
+													}		
+					}
+		
 
 			if(valor[1]!= 0){
 
