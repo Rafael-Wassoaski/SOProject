@@ -4,6 +4,7 @@ void main(){
 	
 	int valor[3];
 	int algoritmo;
+	int gatilho;
 	int coringa;
 	FILE *arquivo;
 	int cont, cont2=0;
@@ -30,7 +31,7 @@ void main(){
 				if(valor[1] > 0){
 			
 
-				fprintf(arquivo, "%d ", cont2 );
+				fprintf(arquivo, "%d ", cont2 + 1 );
 
 				for (cont = 0; cont < 2; cont++){
 
@@ -64,16 +65,17 @@ void main(){
 
 			do{
 						if(algoritmo==3){
-												
+											gatilho = 2;	
 							printf("Digite o tempo de chegada (AT) e o tempo de CPU (BT): ");
-										for(cont=0;cont<2;cont++){
+										for(cont=0;cont<gatilho;cont++){
 
 											scanf("%d",&valor[cont]);
 													}	
 					}else {
 								
 							printf("Digite o tempo de chegada (AT), a Prioridade e o tempo de CPU (BT): ");	
-								for(cont=0;cont<3;cont++){
+								gatilho = 3;
+								for(cont=0;cont<gatilho;cont++){
 
 											scanf("%d",&valor[cont]);
 													}		
@@ -81,10 +83,12 @@ void main(){
 		
 
 			if(valor[1]!= 0){
+				
+				
 
-				fprintf(arquivo, "%d ", cont2 );
+				fprintf(arquivo, "%d ", cont2 + 1 );
 
-				for (cont = 0; cont < 3; cont++){
+				for (cont = 0; cont < gatilho; cont++){
 
 					fprintf(arquivo,"%d ", valor[cont]);
 

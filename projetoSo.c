@@ -26,14 +26,6 @@
 		arquivo=fopen("resultadoEscalonamento.txt","w");
 		
 	int i;
-	
-	
-	
-	
-
-
-
-		
 		
 		while(aux->prox!=NULL){
 		
@@ -45,7 +37,7 @@
 				if(aux2!=NULL){
 					if(aux->at < aux2->at){
 						aux2 = aux;
-					}else if(aux->pid < aux2->pid){
+					}else if(aux->pid < aux2->pid && aux->at == aux2->at){
 						aux2 = aux;
 					}
 					
@@ -131,7 +123,12 @@ filaInicio = filaInicio->prox;
 				if(aux2!=NULL){
 					if(aux->bt < aux2->bt){
 						aux2 = aux;
-					}else if(aux->bt == aux2->bt && aux->pid < aux2->pid){
+					}else if(aux->at < aux2->at){
+						aux2 = aux;
+					
+					}else if(aux->bt == aux2->bt && aux->at < aux2->at){
+						aux2 = aux;
+					}else if (aux->at == aux2->at && aux->pid < aux2->pid){
 						aux2 = aux;
 					}
 					
@@ -197,9 +194,128 @@ filaInicio = filaInicio->prox;
 	}
 	
 	
-	void priority(processData *inicio, FILE *arquivo, int min, int max){
+	
+	void rr(processData *inicio, int quantum, FILE *arquivo){
+		processData *aux = inicio, *aux2 , *filaInicio, *filaFim, *liga = NULL, *filaEscrita = NULL, *filaEscritaFim;
 		int tempo = 0, i;
-		processData *aux = inicio, *aux2 = NULL, *filaInicio, *filaFim;
+		filaInicio = filaFim = NULL;
+			
+		arquivo=fopen("resultadoEscalonamento.txt","w");
+//for(i=0;i<2;i++){
+//		while(aux->prox != NULL){
+//		
+//			
+//				if(aux->at <= tempo){
+//					if(filaInicio == NULL){
+//						filaFim = filaInicio = aux;
+//					
+//					}else{
+//						
+//						filaFim->prox = aux;
+//						aux2 = aux->ant;
+//						aux->ant = filaFim;
+//						filaFim = filaFim->prox;
+//						
+//					
+//					}
+//						if(aux == inicio && aux->prox != NULL){
+//							
+//							inicio = inicio->prox;
+//						
+//						}else if(aux->prox != NULL){
+//					
+//							aux->prox->ant = aux2;
+//						aux2->prox = aux->prox;
+//						
+//						}
+//				}
+//					
+//				aux = aux->prox;
+//				filaFim->prox = NULL;
+//					
+//			}
+//			aux = filaInicio;
+//			while(aux!= NULL){
+//				printf("%d ", aux->pid);
+//				aux = aux->prox;
+//			}
+//	
+//		
+////			if(filaInicio == NULL){
+////				filaInicio = liga;
+////			}else if(liga != NULL){
+////				filaFim->prox = liga;
+////			}
+////				aux2 = filaInicio;
+////			
+////				
+////				
+////				while(aux2 != NULL){
+////			
+////						if(aux2->bt <= quantum){
+////								tempo = tempo + aux2->bt;
+////							aux2->bt = 0;
+////							
+////							
+////						}else{
+////								tempo = tempo + quantum;
+////							aux2->bt -= quantum;
+////						
+////						
+////						}
+////						
+////						if(aux2->bt == 0){
+////					
+////								if(aux2 == filaInicio){
+////			
+////									filaInicio = filaInicio->prox;
+////							}else{
+////								aux2->ant->prox = aux2->prox;
+////								aux2->prox->ant = aux2->ant;
+////								}
+////								
+////								if(filaEscrita == NULL){
+////							filaEscrita = filaEscritaFim = aux2;
+////						}else{
+////							filaEscritaFim->prox = aux2;
+////							filaEscritaFim = filaEscritaFim->prox;
+////							
+////							}
+////							
+////						}
+////				
+////					
+////							printf("P%d|%d|", aux2->pid, tempo);
+////							fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
+////						
+////					aux2 = aux2->prox;
+////				}
+////		
+////				
+////			liga = filaInicio;
+////			filaInicio = filaFim = NULL;
+////			aux = inicio;
+//		
+//		
+		
+		
+			
+		fclose(arquivo);
+					
+			
+//			while(filaInicio->prox != NULL){
+//				printf("%d ",filaInicio->pid);
+//				filaInicio = filaInicio->prox;
+//			}
+		
+		
+	}
+
+	
+	
+	void priority(processData *inicio, FILE *arquivo, int min, int max){
+		int tempo = 0, i=0;
+		processData *aux = inicio, *aux2 = NULL, *aux3 = NULL,*filaInicio, *filaFim;
 		char how;
 		filaInicio = filaFim = NULL;
 		arquivo=fopen("resultadoEscalonamento.txt","w");
@@ -211,64 +327,94 @@ filaInicio = filaInicio->prox;
 		}
 			
 	
-		while(aux->prox != NULL){
-		
-		while(aux->prox != NULL){
-			if(aux->at <= tempo){
-		if(aux2 == NULL){
-			aux2 = aux;
-		
+	while(aux->prox !=NULL){
+		if(aux2 != NULL){
+			aux3 = aux2;
 		}
+	
+	while(aux->prox != NULL){
+		
+		if(aux->at <= tempo){
+	
+			if(aux2 == NULL){	
+				aux2 = aux;
+			
+			}else{
+			
 			switch(how){
-				
-				case '>':
-					//quanto maior melhor
-					
-						if(aux2->priority < aux->priority){
-							aux2 = aux;
+				case '<':
+					//quanto menor mais prioritario
+		
+					if(aux->priority < aux2->priority){
 								
-						}else if(aux2->priority == aux->priority && aux2->pid > aux->pid){
-							aux2 = aux;
-						}
+						aux2 = aux;
+					}else if(aux->priority == aux2->priority && aux->at < aux2->at){
+						aux2 = aux;
+					}else if (aux->at == aux2->at && aux->pid < aux2->pid){
+						aux2 = aux;
+					}
 					break;
-					case '<':
-						//quanto menor melhor
 					
-						if(aux2->priority > aux->priority){
-							aux2 = aux;
+					case'>':
+				
+						//quanto maior mais prioritario
+							if(aux->priority > aux2->priority){
+					
 						
-						}else if(aux2->priority == aux->priority && aux2->pid > aux->pid){
-							aux2 = aux;
-						}
+						aux2 = aux;
+					}else if(aux->priority == aux2->priority && aux->at < aux2->at){
+						aux2 = aux;
+					}else if (aux->at == aux2->at && aux->pid < aux2->pid){
+						aux2 = aux;
+					}
 						break;
+			}
+			
 			
 		}
 		
+	
+		
+	
+		}
+	
+		aux = aux->prox;
+			
+}
+
+if(aux3 != aux2 && aux3!=NULL && aux3->bt > 0 && aux2!=NULL){
+
+		printf("P%d|%d|", aux3->pid, tempo);
+		fprintf(arquivo,"P%d|%d|", aux3->pid, tempo);
+}
+
+
+
+tempo++;
+	
+
+	if(aux2 != NULL){
+	if(aux2->bt > 0){
+		aux2->bt--;
 	
 	}
 	
-		if(aux2!=NULL && aux2->bt > 0){
-			aux2->bt--;
-		}
-		if(aux2->bt == 0){
+
+	 if(aux2->bt == 0){
 		
-	
-			if(aux2 == inicio){
-				inicio = inicio->prox;
-			}else{
-			
-			aux2->ant->prox = aux2->prox;
-			aux2->prox->ant = aux2->ant;
-			
-			}
-			aux2->ct = tempo;
+		aux2->ct = tempo;
 		aux2->tat = abs(aux2->ct - aux2->at);
 		aux2->wt = abs(aux2->tat - aux2->bt);
-		printf("P%d|%d|", aux2->pid, tempo);
-		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
+	printf("P%d|%d|", aux3->pid, tempo);
+		fprintf(arquivo,"P%d|%d|", aux3->pid, tempo);
 		
-	
-	
+		if(aux2 == inicio){
+			
+			inicio = inicio->prox;
+		}else{
+			aux2->ant->prox = aux2->prox;
+			aux2->prox->ant = aux2->ant;
+		}
 		if(filaInicio == NULL){
 			filaInicio = filaFim = aux2;
 		}else{
@@ -276,21 +422,26 @@ filaInicio = filaInicio->prox;
 			filaFim = filaFim->prox;
 			
 		}
-			aux2 = NULL;
-		}
 		
-		
-	tempo++;
+		aux2 = NULL;
 	
-	aux = aux->prox;
-	}
-	aux = inicio;
+
 }
-	aux = inicio;
-	while(aux->prox!=NULL){
-		printf("%d ",aux->pid);
-		aux = aux->prox;
-	}
+
+}
+
+aux = inicio;
+}
+
+
+printf("\n");
+
+//
+//	aux = inicio;
+//	while(aux->prox!=NULL){
+//		printf("%d ",aux->pid);
+//		aux = aux->prox;
+//	}
 	close(arquivo);
 		
 	}
@@ -357,6 +508,26 @@ filaInicio = filaInicio->prox;
 			
 		}else if(strcmp(escalonador, "RR") == 0){
 			//RR
+			
+			fscanf(arquivo, "%d", &quantum);
+			
+		
+			
+			do{
+				fscanf(arquivo,"%d ", &fim->pid);
+				fscanf(arquivo,"%d ", &fim->at);
+				fscanf(arquivo,"%d ", &fim->bt);
+			
+				
+				fim->prox=malloc(sizeof(processData));
+				fim->prox->ant=fim;
+				fim=fim->prox;
+				fim->prox=NULL;
+
+			}while(!feof(arquivo));
+				fclose(arquivo);
+				
+				rr(inicio, quantum, arquivo);
 				
 		
 		}else if(strcmp(escalonador, "Priority") == 0){
