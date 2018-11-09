@@ -196,119 +196,110 @@ filaInicio = filaInicio->prox;
 	
 	
 	void rr(processData *inicio, int quantum, FILE *arquivo){
-		processData *aux = inicio, *aux2 , *filaInicio, *filaFim, *liga = NULL, *filaEscrita = NULL, *filaEscritaFim;
+		processData *aux, *aux2 , *filaInicio, *filaFim, *liga = NULL, *filaEscrita = NULL, *filaEscritaFim;
 		int tempo = 0, i;
-		filaInicio = filaFim = NULL;
+	
 			
 		arquivo=fopen("resultadoEscalonamento.txt","w");
-//for(i=0;i<2;i++){
-//		while(aux->prox != NULL){
-//		
-//			
-//				if(aux->at <= tempo){
-//					if(filaInicio == NULL){
-//						filaFim = filaInicio = aux;
-//					
-//					}else{
-//						
-//						filaFim->prox = aux;
-//						aux2 = aux->ant;
-//						aux->ant = filaFim;
-//						filaFim = filaFim->prox;
-//						
-//					
-//					}
-//						if(aux == inicio && aux->prox != NULL){
-//							
-//							inicio = inicio->prox;
-//						
-//						}else if(aux->prox != NULL){
-//					
-//							aux->prox->ant = aux2;
-//						aux2->prox = aux->prox;
-//						
-//						}
-//				}
-//					
-//				aux = aux->prox;
-//				filaFim->prox = NULL;
-//					
-//			}
-//			aux = filaInicio;
-//			while(aux!= NULL){
-//				printf("%d ", aux->pid);
-//				aux = aux->prox;
-//			}
-//	
-//		
-////			if(filaInicio == NULL){
-////				filaInicio = liga;
-////			}else if(liga != NULL){
-////				filaFim->prox = liga;
-////			}
-////				aux2 = filaInicio;
-////			
-////				
-////				
-////				while(aux2 != NULL){
-////			
-////						if(aux2->bt <= quantum){
-////								tempo = tempo + aux2->bt;
-////							aux2->bt = 0;
-////							
-////							
-////						}else{
-////								tempo = tempo + quantum;
-////							aux2->bt -= quantum;
-////						
-////						
-////						}
-////						
-////						if(aux2->bt == 0){
-////					
-////								if(aux2 == filaInicio){
-////			
-////									filaInicio = filaInicio->prox;
-////							}else{
-////								aux2->ant->prox = aux2->prox;
-////								aux2->prox->ant = aux2->ant;
-////								}
-////								
-////								if(filaEscrita == NULL){
-////							filaEscrita = filaEscritaFim = aux2;
-////						}else{
-////							filaEscritaFim->prox = aux2;
-////							filaEscritaFim = filaEscritaFim->prox;
-////							
-////							}
-////							
-////						}
-////				
-////					
-////							printf("P%d|%d|", aux2->pid, tempo);
-////							fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
-////						
-////					aux2 = aux2->prox;
-////				}
-////		
-////				
-////			liga = filaInicio;
-////			filaInicio = filaFim = NULL;
-////			aux = inicio;
-//		
-//		
-		
-		
+		filaInicio = filaFim = NULL;
+for(i=0;i<6;i++){
+
+		aux=inicio;
+		while(aux->prox!=NULL){
+								 	
+					if(aux->at <= tempo){
+						
+				if(aux == inicio){
+					inicio = inicio->prox;
+				}else{
+					aux->prox->ant = aux->ant;
+					aux->ant->prox = aux->prox;
+				}
 			
-		fclose(arquivo);
-					
+					if(filaInicio == NULL){
+						filaInicio = filaFim = aux;
+					}else{
+						filaFim->prox = aux;
+						aux->ant = filaFim;
+						filaFim = filaFim->prox;
+						
+					}
+			}
+				
 			
-//			while(filaInicio->prox != NULL){
-//				printf("%d ",filaInicio->pid);
-//				filaInicio = filaInicio->prox;
-//			}
+			aux=aux->prox;
+		
+		}
+			
+if(filaInicio!=NULL){
+
+	filaFim->prox = liga;
+if(liga != NULL){
+	liga->ant=filaFim;
+}
+}else{
+
+	filaInicio = liga;
+}
+	
+
+			aux = filaInicio;
+		while(aux!= NULL){
+			
+			if(aux->bt <= quantum){
+				tempo += aux->bt;
+				aux->bt = 0;
+			}else{
+				tempo +=quantum;
+				aux->bt-=quantum;
+			}
+						
+				printf("P%d|%d|", aux->pid, tempo);
+			
+			aux = aux->prox;
+		}
 		
 		
+			aux = filaInicio;
+		while(aux != NULL){
+		
+		
+			if(aux->bt == 0){
+					if(aux == filaInicio){
+			
+			filaInicio = filaInicio->prox;
+		}else if(aux->ant!= NULL && aux->prox != NULL){
+			aux->ant->prox = aux->prox;
+			aux->prox->ant = aux->ant;
+		}else if(aux->ant!= NULL){
+			aux->ant->prox = NULL;
+		}else{
+			aux->prox->ant = NULL;
+		}
+		if(filaEscrita == NULL){
+			filaEscrita = filaEscritaFim = aux2;
+		}else{
+			filaEscritaFim->prox = aux;
+			filaEscritaFim = filaEscritaFim->prox;
+			
+		}
+			}
+	
+		aux= aux->prox;	
+		}
+		liga = filaInicio;
+		filaInicio =NULL;
+		
+	
+		
+		
+	
+
+	
+	
+		
+	}
+	
 	}
 
 	
