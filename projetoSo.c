@@ -9,12 +9,14 @@
 		int wt;
 		int ct;
 		int tat;
+		int tempo;
 		struct processData *prox, *ant;
 		
 	} *inicio=NULL, *fim=NULL;
 	
 	typedef struct processData processData;
 	
+	float mtat = 0, mwt = 0, processos = 0;
 	
 	void fcfs(processData *inicio, FILE *arquivo){
 		
@@ -60,6 +62,9 @@
 		aux2->wt = abs(aux2->tat - aux2->bt);
 		printf("P%d|%d|", aux2->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
+		mwt+=wt;
+		mtat+=tat;
+		processos++
 		
 	
 		if(aux2 == inicio){
@@ -97,6 +102,9 @@ while(filaInicio != filaFim->prox){
 
 filaInicio = filaInicio->prox;
 }
+printf("MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+fprintf(arquivo,"MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+
 	fclose(arquivo);
 		
 	}
@@ -151,7 +159,9 @@ filaInicio = filaInicio->prox;
 		aux2->wt = abs(aux2->tat - aux2->bt);
 		printf("P%d|%d|", aux2->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
-		
+		mwt+=wt;
+		mtat+=tat;
+		processos++
 	
 		if(aux2 == inicio){
 			
@@ -189,6 +199,9 @@ while(filaInicio != filaFim->prox){
 
 filaInicio = filaInicio->prox;
 }
+printf("MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+fprintf(arquivo,"MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+
 	fclose(arquivo);
 		
 	}
@@ -197,18 +210,18 @@ filaInicio = filaInicio->prox;
 	
 	void rr(processData *inicio, int quantum, FILE *arquivo){
 		processData *aux, *aux2 , *filaInicio, *filaFim, *liga = NULL, *filaEscrita = NULL, *filaEscritaFim;
-		int tempo = 0, i;
+		int tempo = 0;
 	
 			
 		arquivo=fopen("resultadoEscalonamento.txt","w");
 		filaInicio = filaFim = NULL;
-for(i=0;i<6;i++){
+do{
 
 		aux=inicio;
 		while(aux->prox!=NULL){
 								 	
 					if(aux->at <= tempo){
-						
+						aux->tempo = aux->bt;
 				if(aux == inicio){
 					inicio = inicio->prox;
 				}else{
@@ -241,6 +254,10 @@ if(liga != NULL){
 
 	filaInicio = liga;
 }
+
+if(filaInicio == NULL){
+	tempo++;
+}else{
 	
 
 			aux = filaInicio;
@@ -253,17 +270,8 @@ if(liga != NULL){
 				tempo +=quantum;
 				aux->bt-=quantum;
 			}
-						
-				printf("P%d|%d|", aux->pid, tempo);
 			
-			aux = aux->prox;
-		}
-		
-		
-			aux = filaInicio;
-		while(aux != NULL){
-		
-		
+			
 			if(aux->bt == 0){
 					if(aux == filaInicio){
 			
@@ -277,16 +285,28 @@ if(liga != NULL){
 			aux->prox->ant = NULL;
 		}
 		if(filaEscrita == NULL){
-			filaEscrita = filaEscritaFim = aux2;
+			filaEscrita = filaEscritaFim = aux;
 		}else{
 			filaEscritaFim->prox = aux;
 			filaEscritaFim = filaEscritaFim->prox;
 			
 		}
+		
+		aux->ct = tempo;
+		aux->tat = abs(aux->ct - aux->at);
+		aux->wt = abs(aux->tat - aux->tempo);
+			mwt+=wt;
+		mtat+=tat;
+		processos++
 			}
-	
-		aux= aux->prox;	
+						
+				printf("P%d|%d|", aux->pid, tempo);
+				fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
+			
+			aux = aux->prox;
 		}
+		
+	
 		liga = filaInicio;
 		filaInicio =NULL;
 		
@@ -295,10 +315,31 @@ if(liga != NULL){
 		
 	
 
+}
 	
 	
 		
-	}
+	}while(inicio!= NULL && liga != NULL);
+	
+
+
+
+	fprintf(arquivo,"\n\n");
+ printf("\n\n");
+ fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+ printf("PID	AT	BT	CT	TAT	WT\n");
+		
+while(filaEscrita != NULL){
+		printf("%d	%d	%d	%d	%d	%d\n",filaEscrita->pid, filaEscrita->at, filaEscrita->tempo, filaEscrita->ct, filaEscrita->tat, filaEscrita->wt);
+		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",filaEscrita->pid, filaEscrita->at, filaEscrita->tempo, filaEscrita->ct, filaEscrita->tat, filaEscrita->wt);
+
+
+filaEscrita = filaEscrita->prox;
+}
+printf("MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+fprintf(arquivo,"MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+
+fclose(arquivo);
 	
 	}
 
@@ -326,7 +367,7 @@ if(liga != NULL){
 	while(aux->prox != NULL){
 		
 		if(aux->at <= tempo){
-	
+		aux->tempo = aux->bt;
 			if(aux2 == NULL){	
 				aux2 = aux;
 			
@@ -398,6 +439,9 @@ tempo++;
 		aux2->wt = abs(aux2->tat - aux2->bt);
 	printf("P%d|%d|", aux3->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux3->pid, tempo);
+		mwt+=wt;
+		mtat+=tat;
+		processos++
 		
 		if(aux2 == inicio){
 			
@@ -424,15 +468,22 @@ tempo++;
 aux = inicio;
 }
 
+	fprintf(arquivo,"\n\n");
+ printf("\n\n");
+ fprintf(arquivo,"PID	AT	BT	CT	TAT	WT\n");
+ printf("PID	AT	BT	CT	TAT	WT\n");
+		
+while(filaInicio != NULL){
+		printf("%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->tempo, filaInicio->ct, filaInicio->tat, filaInicio->wt);
+		fprintf(arquivo,"%d	%d	%d	%d	%d	%d\n",filaInicio->pid, filaInicio->at, filaInicio->tempo, filaInicio->ct, filaInicio->tat, filaInicio->wt);
 
-printf("\n");
 
-//
-//	aux = inicio;
-//	while(aux->prox!=NULL){
-//		printf("%d ",aux->pid);
-//		aux = aux->prox;
-//	}
+filaInicio = filaInicio->prox;
+}
+
+printf("MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+fprintf(arquivo,"MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
+
 	close(arquivo);
 		
 	}
