@@ -62,8 +62,8 @@
 		aux2->wt = abs(aux2->tat - aux2->bt);
 		printf("P%d|%d|", aux2->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
-		mwt+=wt;
-		mtat+=tat;
+		mwt+=aux2->wt;
+		mtat+=aux2->tat;
 		processos++
 		
 	
@@ -159,8 +159,8 @@ fprintf(arquivo,"MTAT=%.2f\nMWT=%.2f", mtat/processos, mwt/processos);
 		aux2->wt = abs(aux2->tat - aux2->bt);
 		printf("P%d|%d|", aux2->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux2->pid, tempo);
-		mwt+=wt;
-		mtat+=tat;
+		mwt+=aux2->wt;
+		mtat+=aux2->tat;
 		processos++
 	
 		if(aux2 == inicio){
@@ -295,8 +295,8 @@ if(filaInicio == NULL){
 		aux->ct = tempo;
 		aux->tat = abs(aux->ct - aux->at);
 		aux->wt = abs(aux->tat - aux->tempo);
-			mwt+=wt;
-		mtat+=tat;
+			mwt+=aux->wt;
+		mtat+=aux->tat;
 		processos++
 			}
 						
@@ -439,8 +439,8 @@ tempo++;
 		aux2->wt = abs(aux2->tat - aux2->bt);
 	printf("P%d|%d|", aux3->pid, tempo);
 		fprintf(arquivo,"P%d|%d|", aux3->pid, tempo);
-		mwt+=wt;
-		mtat+=tat;
+		mwt+=aux2->wt;
+		mtat+=aux2->tat;
 		processos++
 		
 		if(aux2 == inicio){
